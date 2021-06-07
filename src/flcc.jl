@@ -39,7 +39,9 @@ julia> argmax(LCC)
 CartesianIndex(42,45)
 ```
 """
-function flcc(F,T)
+function flcc(F,Tin)
+
+  T = copy(Tin)
 
   nF = size(F); pF = prod(nF)
   nT = size(T); pT = prod(nT)
