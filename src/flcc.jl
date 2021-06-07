@@ -114,6 +114,18 @@ function flccPrec(F,nT)
 
 end
 """
+Then, use the precomputed value tuple for every needle.
+
+```
+  haystack = rand(2^20)
+  needle1 = rand(1) .* haystack[2:8] .+ rand(1)
+  needle2 = rand(1) .* haystack[42:48] .+ rand(1)
+  needle3 = rand(1) .* haystack[end-6:end] .+ rand(1)
+  precomp = FastLocalCorrelationCoefficients.flccPrec(haystack,size(needle1))
+  argmax(FastLocalCorrelationCoefficients.flccComp(precomp,needle1)) == 2
+  argmax(FastLocalCorrelationCoefficients.flccComp(precomp,needle2)) == 42
+  argmax(FastLocalCorrelationCoefficients.flccComp(precomp,needle3)) == 2^20-6
+```
 
 """
 function flccComp((F,nF,pF,nT,pT,nM,fConvOnes,σ̅), T)
