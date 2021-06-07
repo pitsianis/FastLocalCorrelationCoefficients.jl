@@ -1,5 +1,8 @@
 module FastLocalCorrelationCoefficients
 
-# Write your package code here.
+using PaddedViews, DSP, FFTW
+
+export lcc, flcc, flccPrec, flccComp
+include("flcc.jl")
 
 end
