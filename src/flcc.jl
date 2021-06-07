@@ -36,7 +36,7 @@ julia> needle = rand(1) .* haystack[42:48, 45:50] .+ rand(1);
 julia> LCC = flcc(haystack,needle);
 
 julia> argmax(LCC)
-CartesianIndex(42,45)
+CartesianIndex(42, 45)
 ```
 """
 function flcc(F,Tin)
@@ -88,7 +88,7 @@ can avoid redundant computations by precomputing all common information.
   argmax(FastLocalCorrelationCoefficients.flccComp(precomp,needle1)) == 2
   argmax(FastLocalCorrelationCoefficients.flccComp(precomp,needle2)) == 42
   argmax(FastLocalCorrelationCoefficients.flccComp(precomp,needle3)) == 2^20-6
-
+```
 """
 function flccPrec(F,nT)
 
@@ -162,7 +162,7 @@ julia> needle = rand(1) .* haystack[42:48, 45:50] .+ rand(1);
 julia> LCC = lcc(haystack,needle);
 
 julia> argmax(LCC)
-CartesianIndex(42,45)
+CartesianIndex(42, 45)
 ```
 """
 function lcc(F,Tin)
