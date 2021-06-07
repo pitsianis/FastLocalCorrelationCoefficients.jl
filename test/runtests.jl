@@ -58,25 +58,20 @@ using Random
 
 end
 
-@testset "flcc type vs dimensions" begin
-  @testset "d = $d | $ntype" for d ∈ 1:5, ntype ∈ [Float32, Float64, ComplexF32, ComplexF64]
+@testset "datatype vs dimensions" begin
+  @testset "d = $d | $ntype | $fun" for d ∈ 1:4, ntype ∈ [Float32, Float64, ComplexF32, ComplexF64], fun ∈ [flcc, lcc]
 
     Random.seed!(0)
 
-    needle_template = [3:5, 4:8, 1:3, 2:4, 5:7];
-    x = Int.( floor( 2 ^ (20 / d) ) .+ rand( -10:10, d ) );
+    needle_template = [1:4, 1:3, 1:3, 2:2];
+    x = Int.( ones(d) .* ceil( 2 ^ (11 / d) ) ) .+ rand( -1:1, d);
     haystack = rand( ntype, x... );
-    needle = haystack[ needle_template[1:d]... ] .* rand(1) .+ rand(1);
+    needle = haystack[ needle_template[1:d]... ]; # .* rand(1) .+ rand(1);
 
-    isvalid = CartesianIndex( argmax(flcc(haystack,needle)) ) ==
+    isvalid = CartesianIndex( argmax(fun(haystack,needle)) ) ==
       CartesianIndex( getindex.( needle_template[1:d], 1)... )
 
-    if d == 1 && ntype ∈ [Float32, ComplexF32]
-      # TODO: Identify why 1D single precision fails (sometimes)
-      @test_skip isvalid
-    else
-      @test isvalid
-    end
+    @test isvalid
 
   end
 end

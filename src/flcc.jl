@@ -12,7 +12,7 @@ norm(x) = sqrt(sum(map(abs,x).^2))
 
 """
 ```
-  FastLocalCorrelationCoefficients.flcc(haystack,needle)
+  flcc(haystack,needle)
 ```
 Calculate the local correlation coefficients fast using `fft`.
 
@@ -33,7 +33,7 @@ julia> haystack = rand(2^10,2^10);
 
 julia> needle = rand(1) .* haystack[42:48, 45:50] .+ rand(1);
 
-julia> LCC = FastLocalCorrelationCoefficients.flcc(haystack,needle);
+julia> LCC = flcc(haystack,needle);
 
 julia> argmax(LCC)
 CartesianIndex(42,45)
@@ -70,7 +70,8 @@ function flcc(F,Tin)
   M = (fcorr(F, conj(T)) .- 1/pT .* conv(F, ones(typeof(F[1]), nT)) .* conv(T, ones(typeof(F[1]), nF))) ./ σ̅ .* sqrt(pT)
 
   # restrict to valid
-  return map(abs,M[CartesianIndex((nT)):CartesianIndex(nF)])
+  M = M[CartesianIndex((nT)):CartesianIndex(nF)]
+  return ( eltype(M) <: Complex ) ? abs.(M) : M
 
 end
 
@@ -135,7 +136,38 @@ end
 
 # Direct for debugging
 
-function lcc(F,T)
+"""
+```
+  lcc(haystack,needle)
+```
+Calculate the local correlation coefficients directly.
+
+# Example
+
+Suppose you have a `haystack`, a tensor of reals and a `needle`, a
+smaller tensor of the same dimensionality that you are are trying to
+locate in the `haystack`. Note that the `needle` might be scaled and
+translated.
+
+The position of the maximum element of `LCC` is the best match between
+the `needle` and a sliding window of `haystack`
+
+```jldoctest
+julia> using FastLocalCorrelationCoefficients
+
+julia> haystack = rand(2^10,2^10);
+
+julia> needle = rand(1) .* haystack[42:48, 45:50] .+ rand(1);
+
+julia> LCC = lcc(haystack,needle);
+
+julia> argmax(LCC)
+CartesianIndex(42,45)
+```
+"""
+function lcc(F,Tin)
+
+  T = copy( Tin )
 
   nF = size(F); pF = prod(nF)
   nT = size(T); pT = prod(nT)
@@ -151,15 +183,31 @@ function lcc(F,T)
 
   M = zeros(typeof(F[1]), nF .- nT .+ 1)
 
-  for i = 1:(pF - pT + 1)
-    w = F[i:i+pT-1];
-    w .= w .- sum(w)/pT
-    w = w ./ norm(w)
+  # pattern from # https://julialang.org/blog/2016/02/iteration/
+  R  = CartesianIndices(M)
+  Is = CartesianIndex( (nT.-1)... )
 
-    M[i] = sum(w .* conj(T))
+  w = zeros( eltype(T), nT )
+
+  for I ∈ R
+    w .= F[I : (I+Is)]
+    w .-= sum(w)/pT
+    w ./= norm(w)
+
+    M[I] = sum( w .* conj(T) )
   end
 
+  # for i = 1:(pF - pT + 1)
+  #   w = F[i:i+pT-1];
+  #   w .= w .- sum(w)/pT
+  #   w = w ./ norm(w)
+
+  #   M[i] = sum(w .* conj(T))
+  # end
+
   # restrict to valid
-  return map(abs, M)
+  return ( eltype(M) <: Complex ) ? abs.(M) : M
+  # return map(real, M)
 
 end
+
