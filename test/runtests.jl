@@ -72,8 +72,8 @@ end
       CartesianIndex( getindex.( needle_template[1:d], 1)... )
 
     if d == 1 && ntype ∈ [Float32, ComplexF32]
-      # TODO: Identify why 1D single precision fails
-      @test_broken isvalid
+      # TODO: Identify why 1D single precision fails (sometimes)
+      @test_skip isvalid
     else
       @test isvalid
     end
