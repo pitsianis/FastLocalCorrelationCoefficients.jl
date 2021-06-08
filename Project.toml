@@ -10,6 +10,7 @@ PaddedViews = "5432bcbf-9aad-5242-b902-cca2824c8663"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
+DSP = "0.7"
 julia = "1"
 
 [extras]
