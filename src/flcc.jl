@@ -8,7 +8,7 @@ tooSmall = 1e-13
 
 fcorr(x,y) = conv(x, reverse(y))
 
-norm(x) = sqrt(sum(map(abs,x).^2))
+norm(x) = sqrt(sum( i -> abs(i)^2, x) )
 
 """
 ```
@@ -201,12 +201,12 @@ function lcc(F,Tin)
 
   w = zeros( eltype(T), nT )
 
-  for I ∈ R
+  @inbounds @simd for I ∈ R
     w .= F[I : (I+Is)]
     w .-= sum(w)/pT
     w ./= norm(w)
 
-    M[I] = sum( w .* conj(T) )
+    M[I] = dot( T, w )
   end
 
   # for i = 1:(pF - pT + 1)
