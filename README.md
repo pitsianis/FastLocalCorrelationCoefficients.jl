@@ -1,5 +1,7 @@
 # FastLocalCorrelationCoefficients.jl
 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
 [![Build Status](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl/workflows/CI/badge.svg)](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl/actions)
 [![Coverage](https://codecov.io/gh/pitsianis/FastLocalCorrelationCoefficients.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pitsianis/FastLocalCorrelationCoefficients.jl)
 
