@@ -5,6 +5,13 @@
 [![Build Status](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl/workflows/CI/badge.svg)](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl/actions)
 [![Coverage](https://codecov.io/gh/pitsianis/FastLocalCorrelationCoefficients.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pitsianis/FastLocalCorrelationCoefficients.jl)
 
+Full documentation of latest release can be found [here](https://pitsianis.github.io/FastLocalCorrelationCoefficients.jl/stable)
+
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://pitsianis.github.io/FastLocalCorrelationCoefficients.jl/stable)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://pitsianis.github.io/FastLocalCorrelationCoefficients.jl/dev)
+
+## Overview
+
 Computing local correlation coefficients (also known as LCCs) is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
 
 The Fast Local Correlation Coefficients (FLCC) Library `FastLocalCorrelationCoefficients.jl`
