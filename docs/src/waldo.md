@@ -4,7 +4,7 @@
 We will use `FLCC` to find Waldo
 
 ```@example 1
-using Images
+using FastLocalCorrelationCoefficients, Images
 
 
 img = mktemp() do fn,f
@@ -23,7 +23,7 @@ Next, we compute `FLCC` and visualize the correlations.
 
 ```@example 1
 T = permutedims( Float64.( collect( channelview(waldo) ) ), [2 3 1] );
-F = permutedims( Float64.( collect( channelview(img) ) ), [2 3 1] )
+F = permutedims( Float64.( collect( channelview(img) ) ), [2 3 1] );
 M = flcc( F, T );
 
 Gray.( M[:,:,1] )
