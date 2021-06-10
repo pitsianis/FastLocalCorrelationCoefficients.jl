@@ -16,7 +16,7 @@ tooSmall = 1e-13
 ```
 Calculate the local (Pearson) correlation coefficients
 
-``\mathrm{lcc}(x,y) = \frac{(x - \mu_x)(y - \mu_y)}{\sqrt{\sigma_x^2 \sigma_y^2}``
+``\mathrm{lcc}(x,y) = \frac{(x - \mu_x)(y - \mu_y)}{\sqrt{\sigma_x^2 \sigma_y^2}}``
 
 between `needle` and all sliding windows of same size within `haystack`.
 
