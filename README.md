@@ -1,12 +1,21 @@
 # FastLocalCorrelationCoefficients.jl
 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
 [![Build Status](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl/workflows/CI/badge.svg)](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl/actions)
 [![Coverage](https://codecov.io/gh/pitsianis/FastLocalCorrelationCoefficients.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pitsianis/FastLocalCorrelationCoefficients.jl)
 
-Computing local correlation coefficients (also known as LCCs) is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
+Full documentation of latest release can be found [here](https://pitsianis.github.io/FastLocalCorrelationCoefficients.jl/stable)
+
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://pitsianis.github.io/FastLocalCorrelationCoefficients.jl/stable)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://pitsianis.github.io/FastLocalCorrelationCoefficients.jl/dev)
+
+## Overview
+
+Computing local correlation coefficients (also known as Pearson correlation coefficients) is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
 
 The Fast Local Correlation Coefficients (FLCC) Library `FastLocalCorrelationCoefficients.jl`
-computes the Correlation Coefficients with Local Normalization for arbitrary dimensional tensors with real or complex values.
+computes the Local Correlation Coefficients between a template (the needle) and all sliding subframes of a frame (the haystack). The maximum values of the LCCs correspond to the subframes that are most similar to the template. The implementation supports arbitrary dimensional tensors with real or complex values. 
 
 For more information see:
 
