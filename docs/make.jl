@@ -16,6 +16,7 @@ makedocs(;
     pages=[
       "Home" => "index.md",
       "Where's Waldo?" => "waldo.md",
+      "FLCC documentation" => "api.md",
     ],
 )
 

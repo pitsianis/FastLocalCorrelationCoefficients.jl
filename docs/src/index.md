@@ -6,8 +6,6 @@ CurrentModule = FastLocalCorrelationCoefficients
 
 Documentation for [FastLocalCorrelationCoefficients](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl).
 
-```@index
-```
 
 Computing local correlation coefficients (also known as LCCs) is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
 
@@ -21,6 +19,3 @@ For more information see:
  2. G. Papamakarios, G. Rizos, N. P. Pitsianis, and X. Sun, [Fast computation of local correlation coefficients on graphics processing units](http://www.cs.duke.edu/~nikos/reprints/C-032-LCCGPU-SPIE09.pdf), Proc. SPIE 7444, 744412 (2009)
 
 
-```@autodocs
-Modules = [FastLocalCorrelationCoefficients]
-```
