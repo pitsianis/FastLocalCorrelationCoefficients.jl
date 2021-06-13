@@ -3,9 +3,7 @@ on:
   push:
     branches:
       - master
-    paths:
-      - "**.jl"
-      - "docs/**"
+    tags: '*'
   pull_request:
     branches:
       - master
