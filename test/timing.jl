@@ -1,4 +1,4 @@
-using FastLocalCorrelationCoefficients
+using FastLocalCorrelationCoefficients, BenchmarkTools
 
 for n = 2 .^(3:5)
   x = rand(n,n,n,n);
@@ -6,8 +6,8 @@ for n = 2 .^(3:5)
 
   println("n = $n")
 
-  M1 = @time lcc(x,y);
-  M2 = @time flcc(x,y);
+  M1 = @btime lcc(x,y);
+  M2 = @btime flcc(x,y);
 
   maximum(abs.(M1 - M2))
 
