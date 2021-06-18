@@ -93,11 +93,11 @@ function flcc(F::Array,nT::Tuple)
   Ss = collect(PaddedView(zero(typeof(F[1])), F, nM))
 
   FBt = fft(Bt)
-  FS  = fft(Ss)
-  FS2 = fft(abs.(Ss).^2)
+  FS  = fft(Ss) .* FBt
+  FS2 = fft(abs.(Ss).^2) .* FBt
 
-  μ = ifft(FS .* FBt) ./ pT
-  σ̅ = sqrt.( ifft(FS2 .* FBt) .- pT .* abs.(μ).^2 ) .* sqrt(pT)
+  μ =  abs.( ifft( FS  ) ./ pT ).^2
+  σ̅ = sqrt.( ifft( FS2 ) .- pT .* μ ) .* sqrt(pT)
 
   fConvOnes = conv(F, ones(typeof(F[1]), nT))
 

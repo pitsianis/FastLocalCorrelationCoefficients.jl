@@ -1,14 +1,19 @@
 using FastLocalCorrelationCoefficients, BenchmarkTools
 
-for n = 2 .^(3:5)
-  x = rand(n,n,n,n);
-  y = x[1:2^2,1:2^2,1:2^2,1:2^2];
+function timing_test()
+  for n = 2 .^(2:9)
 
-  println("n = $n")
+    x = rand(2^20);
+    y = x[1:n];
 
-  M1 = @btime lcc(x,y);
-  M2 = @btime flcc(x,y);
+    println("n = $n")
 
-  maximum(abs.(M1 - M2))
+    M1 = @btime lcc($x,$y);
+    M2 = @btime flcc($x,$y);
 
+    println("Max Difference ", maximum(abs.(M1 - M2)))
+
+  end
 end
+
+timing_test()
