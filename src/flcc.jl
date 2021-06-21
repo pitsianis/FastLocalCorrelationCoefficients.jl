@@ -89,21 +89,10 @@ function flcc(F::Array,nT::Tuple)
 
   nM = nF .+ nT .- 1
 
-  Bt = collect(PaddedView(zero(typeof(F[1])), ones(typeof(F[1]), nT), nM))
-  Ss = collect(PaddedView(zero(typeof(F[1])), F, nM))
+  fConvOnes = conv(F, ones(eltype(F), nT))
 
-  FFT = plan_fft(Bt; flags=FFTW.ESTIMATE)
-
-  FBt = ( FFT * Bt )
-  FS  = ( FFT * Ss ) .* FBt
-  FS2 = ( FFT * (abs.(Ss).^2) ) .* FBt
-
-  iFFT = plan_ifft(FS; flags=FFTW.ESTIMATE)
-
-  μ =  abs.( (iFFT * FS  ) ./ pT ).^2
-  σ̅ = sqrt.( (iFFT * FS2 ) .- pT .* μ ) .* sqrt(pT)
-
-  fConvOnes = conv(F, ones(typeof(F[1]), nT))
+  μ =  abs.( fConvOnes ./ pT ).^2
+  σ̅ = sqrt.( conv( abs.(F).^2, ones(eltype(F), nT) ) .- pT .* μ ) .* sqrt(pT)
 
   return FLCC_precomp(F,nF,pF,nT,pT,nM,fConvOnes,σ̅)
 

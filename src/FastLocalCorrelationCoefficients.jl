@@ -1,6 +1,6 @@
 module FastLocalCorrelationCoefficients
 
-using PaddedViews, DSP, FFTW, LinearAlgebra
+using DSP, LinearAlgebra
 
 struct FLCC_precomp
   F::Array
