@@ -2,3 +2,4 @@
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 FastLocalCorrelationCoefficients = "a52d4850-34f0-40c4-bafd-3adb601f862f"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
