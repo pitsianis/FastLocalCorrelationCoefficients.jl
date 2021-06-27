@@ -89,19 +89,16 @@ function flcc(F::Array,nT::Tuple)
 
   nM = nF .+ nT .- 1
 
-  fConvOnes = conv(F, 1/pT .* ones(eltype(F), nT))
+  μ = abs.( conv(F, 1/sqrt(pT) .* ones(eltype(F), nT)) ).^2
+  σ̅ = sqrt.( conv( abs.(F).^2, ones(eltype(F), nT) ) .- μ )
 
-  μ =  abs.( fConvOnes ).^2
-  σ̅ = sqrt.( conv( abs.(F).^2, ones(eltype(F), nT) ) .- pT .* μ )
-
-  return FLCC_precomp(F,nF,pF,nT,pT,nM,fConvOnes,σ̅)
-
+  return FLCC_precomp(F, nF, nT, pT, σ̅)
 end
 
 # apply precomputation
 function flcc(prec::FLCC_precomp, Tin::Array)
 
-  F, nF, pF, nT, pT, nM, fConvOnes, σ̅ = [getproperty(prec,i) for i in fieldnames(FLCC_precomp) ]
+  F, nF, nT, pT, σ̅ = [getproperty(prec,i) for i in fieldnames(FLCC_precomp) ]
 
   T = copy( Tin )
   T .= T .- sum(T)/pT
@@ -113,11 +110,10 @@ function flcc(prec::FLCC_precomp, Tin::Array)
     T .= one(eltype(T))
   end
 
-  M = (fcorr(F, conj(T)) .- fConvOnes .* conv(T, ones(eltype(F), nF))) ./ σ̅
+  M = fcorr(F, conj(T) .- sum(T)) ./ σ̅
 
   # restrict to valid
   return M[CartesianIndex((nT)):CartesianIndex(nF)] |> ( (eltype(F)<:Real) ? real : (x -> x) )
-
 end
 
 """
