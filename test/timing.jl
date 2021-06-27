@@ -14,6 +14,14 @@ function timing_test()
     println("Max Difference ", maximum(abs.(M1 - M2)))
 
   end
+
+  x = rand(2^20);
+  y = x[1:4];
+
+  prec = @btime flcc($x,size($y));
+  for i = 1:4
+    M = @btime flcc($prec,$y);
+  end
 end
 
 timing_test()

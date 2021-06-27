@@ -89,10 +89,10 @@ function flcc(F::Array,nT::Tuple)
 
   nM = nF .+ nT .- 1
 
-  fConvOnes = conv(F, ones(eltype(F), nT))
+  fConvOnes = conv(F, 1/pT .* ones(eltype(F), nT))
 
-  μ =  abs.( fConvOnes ./ pT ).^2
-  σ̅ = sqrt.( conv( abs.(F).^2, ones(eltype(F), nT) ) .- pT .* μ ) .* sqrt(pT)
+  μ =  abs.( fConvOnes ).^2
+  σ̅ = sqrt.( conv( abs.(F).^2, ones(eltype(F), nT) ) .- pT .* μ )
 
   return FLCC_precomp(F,nF,pF,nT,pT,nM,fConvOnes,σ̅)
 
@@ -110,10 +110,10 @@ function flcc(prec::FLCC_precomp, Tin::Array)
   if normT > tooSmall
     T .= T ./ normT
   else
-    T .= one(typeof(T[1]))
+    T .= one(eltype(T))
   end
 
-  M = (fcorr(F, conj(T)) .- 1/pT .* fConvOnes .* conv(T, ones(typeof(F[1]), nF))) ./ σ̅ .* sqrt(pT)
+  M = (fcorr(F, conj(T)) .- fConvOnes .* conv(T, ones(eltype(F), nF))) ./ σ̅
 
   # restrict to valid
   return M[CartesianIndex((nT)):CartesianIndex(nF)] |> ( (eltype(F)<:Real) ? real : (x -> x) )
@@ -175,7 +175,7 @@ function lcc(F,Tin)
   if normT > tooSmall
     T .= T ./ normT
   else
-    T .= one(typeof(T[1]))
+    T .= one(eltype(T))
   end
 
   M = zeros(typeof(F[1]), nF .- nT .+ 1)
@@ -186,7 +186,7 @@ function lcc(F,Tin)
 
   w = zeros( eltype(T), nT )
 
-  @inbounds @simd for I ∈ R
+  @inbounds Threads.@threads for I ∈ R
     w .= F[I : (I+Is)]
     w .-= sum(w)/pT
     w ./= norm(w)
