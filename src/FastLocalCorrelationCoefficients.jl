@@ -3,11 +3,11 @@ module FastLocalCorrelationCoefficients
 using DSP, LinearAlgebra
 
 struct FLCC_precomp
-  F::Array
+  F::AbstractArray
   nF::Tuple
   nT::Tuple
   pT::Int
-  σ̅::Array
+  σ̅::AbstractArray
 end
 
 export lcc, flcc, best_correlated

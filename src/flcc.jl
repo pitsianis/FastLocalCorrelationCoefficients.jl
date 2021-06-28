@@ -74,14 +74,14 @@ Then use it for much faster queries.
 ```
 
 """
-function flcc(F::Array,T::Array)
+function flcc(F::AbstractArray,T::AbstractArray)
 
   return flcc(flcc(F,size(T)),T)
 
 end
 
 # precompute
-function flcc(F::Array,nT::Tuple)
+function flcc(F::AbstractArray,nT::Tuple)
 
   nF = size(F)
   pF = prod(nF)
@@ -96,7 +96,7 @@ function flcc(F::Array,nT::Tuple)
 end
 
 # apply precomputation
-function flcc(prec::FLCC_precomp, Tin::Array)
+function flcc(prec::FLCC_precomp, Tin::AbstractArray)
 
   F, nF, nT, pT, σ̅ = [getproperty(prec,i) for i in fieldnames(FLCC_precomp) ]
 
@@ -122,7 +122,7 @@ end
 ```
 Locate the position of the element with the maximum local correlation value.
 """
-function best_correlated(M::Array)
+function best_correlated(M::AbstractArray)
   return argmax(( eltype(M) <: Complex ) ? abs.(M) : M)
 end
 
@@ -174,7 +174,7 @@ function lcc(F,Tin)
     T .= one(eltype(T))
   end
 
-  M = zeros(typeof(F[1]), nF .- nT .+ 1)
+  M = zeros(eltype(F), nF .- nT .+ 1)
 
   # pattern from # https://julialang.org/blog/2016/02/iteration/
   R  = CartesianIndices(M)
