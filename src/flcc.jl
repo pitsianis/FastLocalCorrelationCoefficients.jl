@@ -182,7 +182,7 @@ function lcc(F,Tin)
 
   w = zeros( eltype(T), nT )
 
-  @inbounds Threads.@threads for I ∈ R
+  @inbounds @simd for I ∈ R
     w .= F[I : (I+Is)]
     w .-= sum(w)/pT
     w ./= norm(w)

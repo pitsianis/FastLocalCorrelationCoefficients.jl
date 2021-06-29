@@ -2,6 +2,15 @@ using FastLocalCorrelationCoefficients
 using Test
 using Random
 
+@testset "lcc equivalence" begin
+    Random.seed!(0)
+
+  x = randn(ComplexF64,7,8,9)
+  y = randn(ComplexF64,2,3,4)
+
+  @test maximum(abs.(flcc(x,y) - lcc(x,y))) <= 1e-14
+end
+
 @testset "FastLocalCorrelationCoefficients.jl" begin
 
   Random.seed!(0)
