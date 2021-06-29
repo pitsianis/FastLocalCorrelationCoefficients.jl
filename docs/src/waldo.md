@@ -24,6 +24,7 @@ Transform the images into 3D tensors
 ```@example 1
 T = permutedims( Float64.( collect( channelview(waldo) ) ), [2 3 1] );
 F = permutedims( Float64.( collect( channelview(img) ) ), [2 3 1] );
+nothing # to suppress output
 ```
 
 First, we show that the un-normalized convolution is unable to locate
