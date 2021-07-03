@@ -107,7 +107,7 @@ function flcc(prec::FLCC_precomp, Tin::AbstractArray)
   if normT > tooSmall
     T .= T ./ normT
   else
-    T .= one(eltype(T))
+    error("This method does not support searches for constant segments!")
   end
 
   M = fcorr(F, conj(T) .- sum(T)) ./ σ̅
@@ -118,7 +118,7 @@ end
 
 """
 ```
-  best_correlated(c::Array)
+  best_correlated(c::AbstractArray)
 ```
 Locate the position of the element with the maximum local correlation value.
 """
@@ -171,7 +171,7 @@ function lcc(F,Tin)
   if normT > tooSmall
     T .= T ./ normT
   else
-    T .= one(eltype(T))
+    error("This method does not support searches for constant segments!")
   end
 
   M = zeros(eltype(F), nF .- nT .+ 1)
@@ -183,11 +183,12 @@ function lcc(F,Tin)
   w = zeros( eltype(T), nT )
 
   @inbounds @simd for I ∈ R
+    # make next loop to avoid malloc
     w .= F[I : (I+Is)]
     w .-= sum(w)/pT
-    w ./= norm(w)
+    # w ./= norm(w)
 
-    M[I] = dot( T, w )
+    M[I] = dot( T, w ) / norm(w)
   end
 
   return M
