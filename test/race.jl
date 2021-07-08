@@ -1,6 +1,6 @@
 using LinearAlgebra, BenchmarkTools
 
-function seqential!(y,x,t,n,b)
+function sequential!(y,x,t,n,b)
   w = zeros(b)
 
   @inbounds @simd for i ∈ 1:n-b+1
@@ -38,7 +38,7 @@ function testRace()
   yp = zeros(n-b+1)
 
   begin
-    @btime seqential!($ys,$x, $t,$n,$b)
+    @btime sequential!($ys,$x, $t,$n,$b)
     @btime parallel!($yp,$x, $t,$n,$b)
 
     maximum(abs.(ys .- yp))

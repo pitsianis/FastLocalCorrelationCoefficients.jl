@@ -2,8 +2,9 @@ using FastLocalCorrelationCoefficients
 using Test
 using Random
 
-@testset "lcc equivalence" begin
-    Random.seed!(0)
+@testset "lcc equivalence $ntype" for ntype ∈ [ComplexF32, ComplexF64]
+
+  Random.seed!(0)
 
   x = randn(ComplexF64,7,8,9)
   y = randn(ComplexF64,2,3,4)
