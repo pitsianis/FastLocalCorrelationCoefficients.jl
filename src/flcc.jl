@@ -183,10 +183,9 @@ function lcc(F,Tin)
   w = zeros( eltype(T), nT )
 
   @inbounds @simd for I ∈ R
-    # make next loop to avoid malloc
-    w .= F[I : (I+Is)]
+
+    w .= @view F[I : (I+Is)]
     w .-= sum(w)/pT
-    # w ./= norm(w)
 
     M[I] = dot( T, w ) / norm(w)
   end

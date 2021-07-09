@@ -1,4 +1,4 @@
-using LinearAlgebra, BenchmarkTools
+using LinearAlgebra, BenchmarkTools, LoopVectorization
 
 function sequential!(y,x,t,n,b)
   w = zeros(b)
@@ -19,8 +19,8 @@ function parallel!(y,x,t,n,b)
   local W = zeros(b,Threads.nthreads())
 
   @inbounds Threads.@threads for i ∈ 1:n-b+1
-    w = view(W,:,Threads.threadid())
-    for j = 1:b
+    local w = view(W,:,Threads.threadid())
+    @avx for j = 1:b
       w[j] = x[i+j-1]
     end
     w .-= sum(w)/b
