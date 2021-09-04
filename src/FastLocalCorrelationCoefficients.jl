@@ -1,6 +1,6 @@
 module FastLocalCorrelationCoefficients
 
-using DSP, LinearAlgebra
+using LoopVectorization, DSP, LinearAlgebra
 
 struct FLCC_precomp
   F::AbstractArray
