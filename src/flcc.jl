@@ -10,6 +10,24 @@ tooSmall = 1e-13
 
 @inline norm(x) = sqrt(sum( i -> abs(i)^2, x) )
 
+# NOTE: This overload removes CUDA.reverse `dims` keyword argument demand
+# NOTE: This overload changes CUDA exports, consider overloading `fcorr`
+function Base.reverse(A::AnyCuArray)
+  d = ndims(A)
+  d == 0 && return A
+
+  # Reverse out-of-place
+  R = reverse(A, dims=1)
+
+  # Reverse in-place the rest of dimensions
+  for k in 2:ndims(A)
+    reverse!(R, dims=k)
+  end
+
+  # Return
+  return R
+end
+
 @doc raw"""
 ```
   flcc(haystack,needle)
@@ -89,10 +107,48 @@ function flcc(F::AbstractArray,nT::Tuple)
 
   nM = nF .+ nT .- 1
 
-  μ = abs.( conv(F, 1/sqrt(pT) .* ones(eltype(F), nT)) ).^2
-  σ̅ = sqrt.( conv( abs.(F).^2, ones(eltype(F), nT) ) .- μ )
+  # Allocate similar temporary to preserve eltype and array type
+  T = similar(F, eltype(F), nT)
+
+  T .= 1/sqrt(pT)
+  μ = abs.(conv(F, T)) .^ 2
+
+  T .= 1
+  σ̅ = sqrt.(conv(abs.(F) .^ 2, T) .- μ)
 
   return FLCC_precomp(F, nF, nT, pT, σ̅)
+end
+
+# TODO: `FLCC_precomp` does not have a handle for the distributed case
+function flcc(F::DArray, T::AbstractArray; cuda::Bool=false)
+
+  # Import flcc to all workers
+  @everywhere F.pids @eval import FastLocalCorrelationCoefficients: flcc
+
+  # Allocate result array
+  R = dzeros(eltype(F), size(F) .- size(T) .+ 1, F.pids, size(F.indices))
+
+  # For each worker do work or skip if not in `F.pids`
+  @sync @distributed for _ = 1:nworkers()
+    iR = localindices(R)
+    if !any(isempty.(iR))
+      fiR = first.(iR)
+      liR = last.(iR)
+
+      # Local indices of F
+      # NOTE: It is not guaranteed by the `DistributedArrays.jl` documentation that `F` and `R` are distributed the same way.
+      #       This may lead to overhead due to data transfer
+      iF = (:).(fiR, liR .+ size(T) .- 1)
+
+      # Extract local parts
+      pF = @inbounds @view F[iF...]
+      pR = localpart(R)
+
+      pR .= cuda ? Array(flcc(CuArray(pF), CuArray(T))) : flcc(Array(pF), T)
+    end
+  end
+
+  return R
 end
 
 # apply precomputation

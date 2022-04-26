@@ -1,27 +1,20 @@
-using FastLocalCorrelationCoefficients, BenchmarkTools
+using FastLocalCorrelationCoefficients, BenchmarkTools, CUDA, Distributed
+@everywhere using DistributedArrays
 
-function timing_test()
-  for n = 2 .^(2:9)
+function timing_test(dtype, nF, nT)
 
-    x = rand(2^20);
-    y = x[1:n];
+  F = rand(dtype, nF); cF = CuArray(F); dF = distribute(F)
+  T = rand(dtype, nT); cT = CuArray(T)
 
-    println("n = $n")
+  @info("Timing Results",
+    lcc  = @belapsed( lcc( $F,  $T)),
+    flcc = @belapsed(flcc( $F,  $T)),
+    cuda = @belapsed(flcc($cF, $cT)),
+    dist = @belapsed(flcc($dF,  $T)),
+    duda = @belapsed(flcc($dF,  $T; cuda=true))
+  )
 
-    M1 = @btime lcc($x,$y);
-    M2 = @btime flcc($x,$y);
-
-    println("Max Difference ", maximum(abs.(M1 - M2)))
-
-  end
-
-  x = rand(2^20);
-  y = x[1:4];
-
-  prec = @btime flcc($x,size($y));
-  for i = 1:4
-    M = @btime flcc($prec,$y);
-  end
+  close(dF)
 end
 
-timing_test()
+timing_test(Float64, (2^10, 2^10), (2^5, 2^5))
