@@ -6,7 +6,7 @@ CurrentModule = FastLocalCorrelationCoefficients
  [FastLocalCorrelationCoefficients](https://github.com/pitsianis/FastLocalCorrelationCoefficients.jl).
 
 
-Computing local correlation coefficients (also known as LCCs) is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
+Computing local correlation coefficients (LCCs) also known as Pearson correlation coefficients, is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
 
 The Fast Local Correlation Coefficients (FLCC) Library `FastLocalCorrelationCoefficients.jl`
 computes the Correlation Coefficients with Local Normalization for arbitrary dimensional tensors with real or complex values.
