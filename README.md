@@ -17,6 +17,23 @@ Computing locally normalized correlation coefficients (also known as Pearson cor
 The Fast Local Correlation Coefficients (FLCC) Library `FastLocalCorrelationCoefficients.jl`
 computes the Local Correlation Coefficients between a template (the needle) and all sliding subframes of a frame (the haystack). The maximum values of the LCCs correspond to the subframes that are most similar to the template. The implementation supports arbitrary dimensional tensors with real or complex values. 
 
+For example:
+
+```julia
+
+julia> using FastLocalCorrelationCoefficients
+
+julia> haystack = rand(ComplexF32,2^5,2^5,2^5,2^5);
+
+julia> needle = rand(ComplexF32,1) .* haystack[10:14, 11:15, 12:16, 13:17] .+ rand(ComplexF32,1);
+
+julia> c = flcc(haystack,needle);
+
+julia> best_correlated(c)
+CartesianIndex(10, 11, 12, 13)
+
+```
+
 For more information see:
 
  1. X. Sun, N. P. Pitsianis, and P. Bientinesi, [Fast computation of local correlation coefficients](http://www.cs.duke.edu/~nikos/reprints/C-027-LCC-SPIE.pdf), Proc. SPIE 7074, 707405 (2008)
