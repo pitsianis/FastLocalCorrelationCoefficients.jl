@@ -14,7 +14,7 @@ Full documentation of latest release can be found [here](https://pitsianis.githu
 
 Computing locally normalized correlation coefficients (also known as Pearson correlation coefficients) is a basic step in various image-based data or information processing applications, including template or pattern matching, detection and estimation of motion or some other change in an image frame series, image registration from data collected at different times, projections, perspectives or with different acquisition modalities, and compression across multiple image frames.
 
-The Fast Local Correlation Coefficients (FLCC) Library `FastLocalCorrelationCoefficients.jl`
+The Fast Local Correlation Coefficients (FLCC) Package `FastLocalCorrelationCoefficients.jl`
 computes the Local Correlation Coefficients between a template (the needle) and all sliding subframes of a frame (the haystack). The maximum values of the LCCs correspond to the subframes that are most similar to the template. The implementation supports arbitrary dimensional tensors with real or complex values. 
 
 For example:
@@ -33,6 +33,10 @@ julia> best_correlated(c)
 CartesianIndex(10, 11, 12, 13)
 
 ```
+
+The computational complexity of `flcc` is ${\rm O}((m+n)\log(m+n))$, which can be substantially faster than the direct `lcc` computation in ${\rm O}(m n)$, where $m$ and $n$ are the number of elements of the needle and the haystack, respectively.
+
+Moreover, `flcc` allows the precomputation of common calculations when we search a haystack multiple times for needles of the same size, reducing the run time even further. No such optimization can be performed with the direct `lcc` computation.
 
 For more information see:
 
