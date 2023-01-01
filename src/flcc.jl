@@ -54,7 +54,7 @@ locate in the `haystack`. Note that the `needle` might be scaled and
 translated.
 
 The position of the maximum element of `LCC` is the best match between
-the `needle` and a sliding window of `haystack`
+the `needle` and a sliding window of the `haystack`
 
 ```jldoctest
 julia> using FastLocalCorrelationCoefficients
