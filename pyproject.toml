@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FastLocalCorrelationCoefficients"
+authors = [
+    {name = "Nikos Pitsianis", email = "nikos@cs.duke.edu"},
+]
+description = "Fast computation of local (Pearson) correlation coefficients for arbitrary size tensors of real and complex numbers."
+readme = "README.md"
+license = {file = "LICENSE"}
+version = "0.1.2"
+dependencies = [
+    "juliacall",
+]
+keywords = ["correlation"]
