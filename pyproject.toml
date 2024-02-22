@@ -15,3 +15,6 @@ dependencies = [
     "juliacall",
 ]
 keywords = ["correlation"]
+
+[tool.setuptools]
+packages = ["FastLocalCorrelationCoefficients"]
