@@ -1,3 +1,6 @@
+import juliapkg
+# resolve dependencies
+juliapkg.resolve()
 
 from juliacall import Main as jl
 jl.seval("using FastLocalCorrelationCoefficients")
