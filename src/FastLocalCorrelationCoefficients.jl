@@ -1,7 +1,8 @@
 module FastLocalCorrelationCoefficients
 
 # NOTE: Import `CUDA` and `CUDA.CUFFT` in a guard
-using LoopVectorization, DSP, LinearAlgebra, CUDA, CUDA.CUFFT, Distributed, DistributedArrays
+using LoopVectorization, LinearAlgebra, CUDA, CUDA.CUFFT, Distributed, DistributedArrays
+using DSP
 
 struct FLCC_precomp
   F::AbstractArray

@@ -1,7 +1,7 @@
 name = "FastLocalCorrelationCoefficients"
 uuid = "a52d4850-34f0-40c4-bafd-3adb601f862f"
-authors = ["Nikos Pitsianis <nikos@cs.duke.edu> and contributors"]
 version = "0.1.2"
+authors = ["Nikos Pitsianis <nikos@cs.duke.edu> and contributors"]
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
@@ -14,7 +14,7 @@ LoopVectorization = "bdcacae8-1622-11e9-2a5c-532679323890"
 
 [compat]
 BenchmarkTools = "1"
-DSP = "0.7"
+DSP = "0.8.4"
 LoopVectorization = "0.12"
 julia = "1.6"
 
